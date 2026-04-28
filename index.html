@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alô Goró - Bebidas Delivery | Proposta Comercial</title>
+  <meta name="description" content="Proposta comercial para desenvolvimento de sistema próprio de delivery para o Alô Goró." />
+
+  <style>
+    :root {
+      --bg: #07070a;
+      --bg-soft: #101017;
+      --card: rgba(255, 255, 255, 0.06);
+      --card-strong: rgba(255, 255, 255, 0.1);
+      --border: rgba(255, 255, 255, 0.12);
+      --text: #f7f7fb;
+      --muted: #a7a7b5;
+      --muted-strong: #c7c7d2;
+      --primary: #E12573;
+      --primary-soft: rgba(225, 37, 115, 0.14);
+      --green: #46d17d;
+      --red: #ff5b5b;
+      --radius: 28px;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.42);
+      --max: 1160px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 50px;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 20% 0%, rgba(225, 37, 115, 0.18), transparent 28%),
+        radial-gradient(circle at 80% 20%, rgba(26, 23, 114, 0.3), transparent 28%),
+        linear-gradient(180deg, #08080c 0%, #07070a 45%, #050507 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: linear-gradient(to bottom, black, transparent 72%);
+      z-index: -1;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(100% - 40px, var(--max));
+      margin-inline: auto;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(18px);
+      background: rgba(7, 7, 10, 0.72);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .nav-inner {
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .brand-mark {
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      color: #08080c;
+      background: linear-gradient(135deg, #FF5E9D, var(--primary));
+      box-shadow: 0 0 34px rgba(225, 37, 115, 0.28);
+      font-weight: 900;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      color: var(--muted-strong);
+      font-size: 14px;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border: 1px solid transparent;
+      padding: 14px 18px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 14px;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #FF5E9D, var(--primary));
+      color: #ffffff;
+      box-shadow: 0 14px 36px rgba(225, 37, 115, 0.22);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 46px rgba(225, 37, 115, 0.3);
+    }
+
+    .btn-secondary {
+      border-color: var(--border);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+    }
+
+    .btn-secondary:hover {
+      border-color: rgba(255, 255, 255, 0.24);
+      background: rgba(255, 255, 255, 0.08);
+      transform: translateY(-2px);
+    }
+
+    .hero {
+      position: relative;
+      padding: 86px 0 56px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 42px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 13px;
+      border: 1px solid rgba(225, 37, 115, 0.24);
+      background: var(--primary-soft);
+      color: #FF8EBE;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 22px;
+    }
+
+    .pulse {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--green);
+      box-shadow: 0 0 0 8px rgba(70, 209, 125, 0.13);
+      margin-right: 10px;
+    }
+
+    h1 {
+      font-size: clamp(42px, 7vw, 86px);
+      line-height: 0.92;
+      letter-spacing: -0.075em;
+      margin-bottom: 26px;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #ffffff 0%, #FF5E9D 52%, var(--primary) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      max-width: 650px;
+      color: var(--muted-strong);
+      font-size: 19px;
+      line-height: 1.65;
+      margin-bottom: 30px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 32px;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .stat {
+      padding: 18px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.045);
+      border-radius: 20px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 22px;
+      letter-spacing: -0.04em;
+      margin-bottom: 4px;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .mockup-wrap {
+      position: relative;
+    }
+
+    .mockup-glow {
+      position: absolute;
+      inset: 12% 0 auto 0;
+      height: 360px;
+      background: radial-gradient(circle, rgba(225, 37, 115, 0.22), transparent 64%);
+      filter: blur(14px);
+      z-index: -1;
+    }
+
+    .dashboard-card {
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.045));
+      box-shadow: var(--shadow);
+      border-radius: 34px;
+      overflow: hidden;
+      transform: rotate(1.2deg);
+    }
+
+    .window-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+      background: rgba(255, 255, 255, 0.045);
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.22);
+    }
+
+    .mockup-content {
+      padding: 22px;
+    }
+
+    .order-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .order-header h3 {
+      font-size: 22px;
+      letter-spacing: -0.04em;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 11px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      background: rgba(70, 209, 125, 0.12);
+      color: #87edae;
+      border: 1px solid rgba(70, 209, 125, 0.24);
+      white-space: nowrap;
+    }
+
+    .order-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .order-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: center;
+      padding: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(0, 0, 0, 0.22);
+      border-radius: 20px;
+    }
+
+    .order-row strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .order-row span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .price {
+      color: var(--primary);
+      font-weight: 900;
+    }
+
+    .receipt {
+      width: 90%;
+      margin-top: 16px;
+      padding: 18px;
+      border-radius: 22px;
+      background: #f8f3e7;
+      color: #151515;
+      font-family: "Courier New", monospace;
+      transform: translateX(22px) rotate(-2deg);
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.24);
+    }
+
+    .receipt h4 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .receipt p {
+      font-size: 12px;
+      line-height: 1.5;
+      margin: 0;
+      color: #151515;
+    }
+
+    section {
+      padding: 72px 0;
+    }
+
+    .section-head {
+      max-width: 760px;
+      margin-bottom: 32px;
+    }
+
+    .section-head.center {
+      margin-inline: auto;
+      text-align: center;
+    }
+
+    .section-kicker {
+      color: var(--primary);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-size: 12px;
+      margin-bottom: 12px;
+    }
+
+    h2 {
+      font-size: clamp(32px, 4.6vw, 58px);
+      line-height: 1;
+      letter-spacing: -0.065em;
+      margin-bottom: 16px;
+    }
+
+    .section-head p {
+      color: var(--muted-strong);
+      font-size: 18px;
+      line-height: 1.65;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .card {
+      position: relative;
+      padding: 24px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+      overflow: hidden;
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 20% 0%, rgba(225, 37, 115, 0.12), transparent 38%);
+      opacity: 0;
+      transition: 0.2s ease;
+      pointer-events: none;
+    }
+
+    .card:hover::after {
+      opacity: 1;
+    }
+
+    .icon {
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      font-size: 22px;
+      margin-bottom: 18px;
+    }
+
+    .card h3 {
+      font-size: 21px;
+      letter-spacing: -0.035em;
+      margin-bottom: 10px;
+    }
+
+    .card p, .card li {
+      color: var(--muted-strong);
+      line-height: 1.65;
+      font-size: 15px;
+    }
+
+    .card ul {
+      list-style: none;
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .card li {
+      display: flex;
+      gap: 10px;
+    }
+
+    .card li::before {
+      content: "✓";
+      color: var(--green);
+      font-weight: 900;
+      flex: 0 0 auto;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .big-panel {
+      padding: 34px;
+      border-radius: 34px;
+      border: 1px solid rgba(225, 37, 115, 0.22);
+      background:
+        radial-gradient(circle at 10% 0%, rgba(225, 37, 115, 0.16), transparent 40%),
+        rgba(255, 255, 255, 0.055);
+      box-shadow: var(--shadow);
+    }
+
+    .big-panel h3 {
+      font-size: clamp(28px, 3vw, 42px);
+      line-height: 1.08;
+      letter-spacing: -0.055em;
+      margin-bottom: 16px;
+    }
+
+    .big-panel p {
+      color: var(--muted-strong);
+      font-size: 17px;
+      line-height: 1.7;
+      margin-bottom: 18px;
+    }
+
+    .comparison {
+      display: grid;
+      gap: 14px;
+    }
+
+    .comparison-row {
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      gap: 14px;
+      align-items: start;
+      padding: 18px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.045);
+      border-radius: 22px;
+    }
+
+    .comparison-row strong {
+      display: block;
+      margin-bottom: 5px;
+      letter-spacing: -0.02em;
+    }
+
+    .comparison-row span {
+      color: var(--muted-strong);
+      line-height: 1.55;
+      font-size: 15px;
+    }
+
+    .number {
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--primary);
+      font-weight: 900;
+    }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      counter-reset: steps;
+    }
+
+    .timeline-card {
+      counter-increment: steps;
+      padding: 22px;
+      border-radius: 26px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.052);
+    }
+
+    .timeline-card::before {
+      content: counter(steps, decimal-leading-zero);
+      display: inline-flex;
+      margin-bottom: 28px;
+      font-size: 13px;
+      font-weight: 900;
+      color: var(--primary);
+    }
+
+    .timeline-card h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+      letter-spacing: -0.03em;
+    }
+
+    .timeline-card p {
+      color: var(--muted-strong);
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .price-panel {
+      display: grid;
+      grid-template-columns: 1fr 0.9fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .investment {
+      padding: 38px;
+      border-radius: 36px;
+      border: 1px solid rgba(225, 37, 115, 0.28);
+      background:
+        linear-gradient(135deg, rgba(225, 37, 115, 0.15), rgba(255, 255, 255, 0.055)),
+        rgba(255, 255, 255, 0.055);
+      box-shadow: var(--shadow);
+    }
+
+    .investment small {
+      display: block;
+      color: var(--muted-strong);
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .investment .amount {
+      font-size: clamp(48px, 8vw, 88px);
+      font-weight: 950;
+      letter-spacing: -0.08em;
+      line-height: 0.95;
+      margin-bottom: 16px;
+    }
+
+    .investment p {
+      color: var(--muted-strong);
+      line-height: 1.65;
+      max-width: 660px;
+    }
+
+    .price-list {
+      padding: 28px;
+      border-radius: 36px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.052);
+    }
+
+    .price-list h3 {
+      font-size: 22px;
+      margin-bottom: 18px;
+      letter-spacing: -0.04em;
+    }
+
+    .price-list ul {
+      list-style: none;
+      display: grid;
+      gap: 13px;
+    }
+
+    .price-list li {
+      display: flex;
+      gap: 10px;
+      color: var(--muted-strong);
+      line-height: 1.5;
+    }
+
+    .price-list li::before {
+      content: "✓";
+      color: var(--green);
+      font-weight: 900;
+    }
+
+    .note {
+      margin-top: 18px;
+      padding: 18px;
+      border-radius: 22px;
+      background: rgba(255, 91, 91, 0.1);
+      border: 1px solid rgba(255, 91, 91, 0.18);
+      color: #ffd0d0;
+      line-height: 1.55;
+      font-size: 14px;
+    }
+
+    .cta {
+      text-align: center;
+      padding: 86px 0 96px;
+    }
+
+    .cta-box {
+      position: relative;
+      overflow: hidden;
+      padding: 56px 30px;
+      border-radius: 40px;
+      border: 1px solid rgba(225, 37, 115, 0.22);
+      background:
+        radial-gradient(circle at 50% 0%, rgba(225, 37, 115, 0.2), transparent 42%),
+        rgba(255, 255, 255, 0.055);
+      box-shadow: var(--shadow);
+    }
+
+    .cta-box h2 {
+      max-width: 780px;
+      margin-inline: auto;
+    }
+
+    .cta-box p {
+      max-width: 680px;
+      margin: 0 auto 28px;
+      color: var(--muted-strong);
+      font-size: 18px;
+      line-height: 1.65;
+    }
+
+    footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 28px 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+
+
+    @media (max-width: 940px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero-grid,
+      .split,
+      .price-panel {
+        grid-template-columns: 1fr;
+      }
+
+      .cards-grid,
+      .timeline {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .dashboard-card {
+        transform: none;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .brand-logo {
+        height: 50px !important;
+      }
+      
+      .brand-text {
+        display: none;
+      }
+
+      .nav-inner {
+        gap: 10px;
+        height: 60px;
+      }
+
+      .nav-inner .btn {
+        padding: 10px 16px;
+        font-size: 13px;
+        width: auto;
+      }
+
+      .container {
+        width: min(100% - 28px, var(--max));
+      }
+
+      .hero {
+        padding-top: 48px;
+      }
+
+      .hero-stats,
+      .cards-grid,
+      .timeline {
+        grid-template-columns: 1fr;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .receipt {
+        transform: none;
+        width: 100%;
+      }
+
+      .investment,
+      .big-panel,
+      .cta-box {
+        padding: 28px 22px;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        text-align: center;
+        gap: 12px;
+      }
+      
+    @keyframes floatLogo {
+      0% { transform: translateY(0px); filter: drop-shadow(0 10px 20px rgba(225, 37, 115, 0.3)); }
+      50% { transform: translateY(-10px); filter: drop-shadow(0 20px 30px rgba(225, 37, 115, 0.5)); }
+      100% { transform: translateY(0px); filter: drop-shadow(0 10px 20px rgba(225, 37, 115, 0.3)); }
+    }
+
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="#top" class="brand" aria-label="Início" style="display: flex; align-items: center; gap: 12px;">
+        <img src="logo.png" alt="Alô Goró Logo" class="brand-logo" style="height: 80px; width: auto; object-fit: contain;">
+        <div class="brand-text" style="display: flex; flex-direction: column; gap: 2px;">
+          <span style="font-size: 1.15rem; font-weight: 800; color: var(--text); letter-spacing: -0.02em;">Alô Goró</span>
+          <span style="font-size: 0.75rem; color: var(--primary); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;">Bebidas Delivery</span>
+        </div>
+      </a>
+
+      <nav class="nav-links" aria-label="Navegação principal">
+        <a href="#solucao">Solução</a>
+        <a href="#escopo">Escopo</a>
+        <a href="#processo">Processo</a>
+        <a href="#investimento">Investimento</a>
+      </nav>
+
+      <a class="btn btn-primary" href="#investimento">Ver proposta</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow"><span class="pulse"></span> Proposta para sistema próprio de pedidos</div>
+          <h1>Um delivery simples, rápido e <span class="gradient-text">pronto pra vender.</span></h1>
+          <p>
+            A proposta é criar uma plataforma própria para a distribuidora receber pedidos online, organizar a operação e reduzir a dependência de atendimento manual pelo WhatsApp. Sem obrigar o cliente a instalar aplicativo. Sem complexidade desnecessária. Sem transformar o projeto num monstro de sete cabeças com login de dragão.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#solucao" class="btn btn-primary">Entender solução</a>
+            <a href="#escopo" class="btn btn-secondary">Ver funcionalidades</a>
+          </div>
+
+          <div class="hero-stats">
+            <div class="stat">
+              <strong>Site</strong>
+              <span>Cliente acessa direto pelo link, sem instalar app.</span>
+            </div>
+            <div class="stat">
+              <strong>Pedidos</strong>
+              <span>Carrinho, checkout e acompanhamento básico.</span>
+            </div>
+            <div class="stat">
+              <strong>Painel</strong>
+              <span>Produtos, status da loja e impressão térmica.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mockup-wrap" aria-label="Prévia visual do painel">
+          <div class="mockup-glow"></div>
+          <div class="dashboard-card">
+            <div class="window-bar">
+              <span class="dot"></span>
+              <span class="dot"></span>
+              <span class="dot"></span>
+            </div>
+
+            <div class="mockup-content">
+              <div class="order-header">
+                <h3>Pedidos em tempo real</h3>
+                <span class="badge"><span class="pulse"></span> Loja aberta</span>
+              </div>
+
+              <div class="order-list">
+                <div class="order-row">
+                  <div>
+                    <strong>Pedido #1024</strong>
+                    <span>3 itens, entrega no bairro Centro</span>
+                  </div>
+                  <div class="price">R$ 86,90</div>
+                </div>
+
+                <div class="order-row">
+                  <div>
+                    <strong>Pedido #1025</strong>
+                    <span>Retirada no balcão, pagamento em Pix</span>
+                  </div>
+                  <div class="price">R$ 42,00</div>
+                </div>
+              </div>
+
+              <div class="receipt">
+                <h4>ALÔ GORÓ</h4>
+                <p>Pedido #1024</p>
+                <p>--------------------------------</p>
+                <p>2x Cerveja 600ml</p>
+                <p>1x Refrigerante 2L</p>
+                <p>--------------------------------</p>
+                <p>Total: R$ 86,90</p>
+                <p>Pagamento: Cartão na entrega</p>
+                <p>Endereço: Rua Exemplo, 123</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="solucao">
+      <div class="container split">
+        <div class="big-panel">
+          <div class="section-kicker">Estratégia</div>
+          <h3>Começar por site é mais inteligente do que começar por aplicativo.</h3>
+          <p>
+            Muita gente não quer instalar um app só para fazer um pedido, principalmente quando ainda não conhece a loja ou vai comprar poucas vezes. Com um site, o cliente recebe o link, abre, escolhe os produtos e finaliza o pedido na hora.
+          </p>
+          <p>
+            O sistema pode funcionar muito bem como um aplicativo instalável depois, mas sem colocar essa barreira logo no primeiro contato. Menos atrito, mais pedido. Matemática básica, sem palestra de inovação com slide azul.
+          </p>
+        </div>
+
+        <div class="comparison">
+          <div class="comparison-row">
+            <div class="number">01</div>
+            <div>
+              <strong>Cliente acessa pelo link</strong>
+              <span>Não precisa baixar nada. O pedido começa direto no navegador.</span>
+            </div>
+          </div>
+
+          <div class="comparison-row">
+            <div class="number">02</div>
+            <div>
+              <strong>Pedido organizado</strong>
+              <span>Produtos, quantidades, endereço, forma de entrega e pagamento ficam estruturados.</span>
+            </div>
+          </div>
+
+          <div class="comparison-row">
+            <div class="number">03</div>
+            <div>
+              <strong>Painel administrativo</strong>
+              <span>A loja gerencia produtos, recebe pedidos e atualiza status sem depender de conversa perdida no WhatsApp.</span>
+            </div>
+          </div>
+
+          <div class="comparison-row">
+            <div class="number">04</div>
+            <div>
+              <strong>Base pronta para evoluir</strong>
+              <span>Depois dá para adicionar pagamento online, promoções, fidelidade e até aplicativo próprio, se fizer sentido.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="escopo">
+      <div class="container">
+        <div class="section-head center">
+          <div class="section-kicker">Escopo do MVP</div>
+          <h2>O necessário para operar bem, sem inventar moda.</h2>
+          <p>
+            A primeira versão foca no que gera valor de verdade: vender, organizar pedidos, facilitar a operação e deixar espaço para evolução.
+          </p>
+        </div>
+
+        <div class="cards-grid">
+          <article class="card">
+            <div class="icon">🛒</div>
+            <h3>Área do cliente</h3>
+            <p>Experiência simples para o cliente escolher produtos e finalizar o pedido.</p>
+            <ul>
+              <li>Catálogo por categoria</li>
+              <li>Busca e listagem de produtos</li>
+              <li>Carrinho de compras</li>
+              <li>Checkout com dados de entrega</li>
+              <li>Escolha entre entrega ou retirada</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <div class="icon">💳</div>
+            <h3>Pedido e pagamento</h3>
+            <p>Pagamento pensado para o MVP, sem depender de integração complexa no início.</p>
+            <ul>
+              <li>Pix manual</li>
+              <li>Dinheiro na entrega</li>
+              <li>Cartão na entrega</li>
+              <li>Resumo do pedido</li>
+              <li>Status básico do pedido</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <div class="icon">📦</div>
+            <h3>Painel administrativo</h3>
+            <p>Controle da operação no dia a dia, sem planilha infernal nem pedido perdido.</p>
+            <ul>
+              <li>Cadastro de produtos</li>
+              <li>Cadastro de categorias</li>
+              <li>Alteração de preço</li>
+              <li>Ativar ou desativar itens</li>
+              <li>Visualização de pedidos</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <div class="icon">🟢</div>
+            <h3>Loja aberta ou fechada</h3>
+            <p>A distribuidora informa se está atendendo naquele momento.</p>
+            <ul>
+              <li>Botão para abrir ou fechar loja</li>
+              <li>Bloqueio de novos pedidos quando fechada</li>
+              <li>Mensagem clara para o cliente</li>
+              <li>Possibilidade de horário automático em evolução futura</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <div class="icon">🧾</div>
+            <h3>Impressão térmica</h3>
+            <p>Pedido impresso no formato ideal para separação e entrega.</p>
+            <ul>
+              <li>Botão para imprimir pedido</li>
+              <li>Layout tipo cupom</li>
+              <li>Produtos e quantidades</li>
+              <li>Endereço de entrega</li>
+              <li>Forma de pagamento</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <div class="icon">🚀</div>
+            <h3>Evoluções futuras</h3>
+            <p>Depois da primeira versão validada, o sistema pode crescer com segurança.</p>
+            <ul>
+              <li>Pagamento online</li>
+              <li>Cupons e promoções</li>
+              <li>Programa de fidelidade</li>
+              <li>App próprio</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="processo">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-kicker">Processo</div>
+          <h2>Como o projeto sai do papel.</h2>
+          <p>
+            A entrega é organizada em etapas para evitar bagunça, retrabalho e aquele clássico “só mais uma coisinha” que destrói qualquer cronograma.
+          </p>
+        </div>
+
+        <div class="timeline">
+          <div class="timeline-card">
+            <h3>Alinhamento</h3>
+            <p>Definição final do escopo, formas de pagamento, categorias, fluxo de entrega e regras da operação.</p>
+          </div>
+
+          <div class="timeline-card">
+            <h3>Design e estrutura</h3>
+            <p>Criação da experiência principal do cliente e do painel administrativo com foco em velocidade e clareza.</p>
+          </div>
+
+          <div class="timeline-card">
+            <h3>Desenvolvimento</h3>
+            <p>Implementação do catálogo, carrinho, checkout, painel, status da loja e impressão do pedido.</p>
+          </div>
+
+          <div class="timeline-card">
+            <h3>Publicação</h3>
+            <p>Configuração do ambiente online, testes finais e entrega do sistema pronto para uso.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="investimento">
+      <div class="container">
+        <div class="section-head center">
+          <div class="section-kicker">Investimento</div>
+          <h2>Um sistema para vender mais e operar melhor.</h2>
+          <p>
+            O objetivo não é criar apenas uma vitrine bonita. É entregar uma ferramenta própria para receber pedidos, organizar a loja e reduzir ruído operacional.
+          </p>
+        </div>
+
+        <div class="price-panel">
+          <div class="investment">
+            <small>Desenvolvimento da primeira versão</small>
+            <div class="amount">R$ 9.690</div>
+            <p>
+              Inclui a criação da plataforma web, área do cliente, painel administrativo, gestão de produtos, carrinho, checkout, status da loja e impressão dos pedidos em formato compatível com impressora térmica via navegador.
+            </p>
+            <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.12); display: flex; flex-direction: column; gap: 16px;">
+              <div>
+                <strong style="color: var(--text); font-size: 15px; display: block; margin-bottom: 4px;">Forma de Pagamento</strong>
+                <span style="color: var(--muted-strong); font-size: 14px;">PIX: 50% de entrada + 50% na entrega.</span>
+              </div>
+              <div>
+                <strong style="color: var(--text); font-size: 15px; display: block; margin-bottom: 4px;">Garantia e Alterações</strong>
+                <span style="color: var(--muted-strong); font-size: 14px; display: block; margin-bottom: 6px;">30 dias de testes com correções e alterações que estejam dentro do escopo.</span>
+                <span style="color: var(--muted); font-size: 13px; font-style: italic;">* Após a entrega final (acordada com o cliente), qualquer nova alteração será cobrada.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="price-list">
+            <h3>Incluído na proposta</h3>
+            <ul>
+              <li>Interface do cliente para pedidos online</li>
+              <li>Painel administrativo protegido</li>
+              <li>Cadastro e edição de produtos</li>
+              <li>Controle de loja aberta ou fechada</li>
+              <li>Gestão e atualização de pedidos</li>
+              <li>Impressão de pedidos em formato de cupom</li>
+              <li>Publicação do sistema online</li>
+            </ul>
+
+            <div class="note">
+              Pagamento online, aplicativo nativo, programa de fidelidade, cupons avançados e integração fiscal não fazem parte da primeira versão. Esses pontos podem entrar como evolução depois que a operação principal estiver rodando.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="container">
+        <div class="cta-box">
+          <img src="logo.png" alt="Alô Goró Logo" style="height: 120px; width: auto; margin-bottom: 24px; animation: floatLogo 4s ease-in-out infinite; object-fit: contain;">
+          <div class="section-kicker">Próximo passo</div>
+          <h2>Se fizer sentido, o próximo passo é fechar o escopo e iniciar a implementação.</h2>
+          <p>
+            A primeira versão já resolve o essencial: o cliente pede pelo site, a loja recebe no painel, controla o status e imprime o pedido para operação. Simples, direto e com espaço para crescer.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <span>Proposta comercial | Alô Goró - Bebidas Delivery</span>
+      <span>Criado por <strong>Ramon Campos</strong> | Válida por 15 dias</span>
+    </div>
+  </footer>
+
+
+
+  <script>
+    const nav = document.querySelector('.nav');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 24) {
+        nav.style.background = 'rgba(7, 7, 10, 0.88)';
+      } else {
+        nav.style.background = 'rgba(7, 7, 10, 0.72)';
+      }
+    });
+  </script>
+</body>
+</html>
